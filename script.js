@@ -1,13 +1,17 @@
 // ================================================================
 // سكريبت التفاعل الرئيسي - Main Interactive Script
-// تم مراجعته بعناية لضمان التوافق الكامل والعمل الموثوق
+// تم مراجعته وتحسينه بعناية شاملة
 // ================================================================
 
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
-  initializePortfolio();
-  populateAllSections();
-  setupEventListeners();
+  try {
+    initializePortfolio();
+    populateAllSections();
+    setupEventListeners();
+  } catch (error) {
+    console.error('❌ خطأ في التهيئة:', error);
+  }
 });
 
 // ================================================================
@@ -15,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // ================================================================
 
 function initializePortfolio() {
-  updateTeacherData();
   validateConfig();
+  updateTeacherData();
 }
 
 // التحقق من صحة البيانات
@@ -25,7 +29,34 @@ function validateConfig() {
     console.error('❌ خطأ: ملف config.js لم يتم تحميله');
     return false;
   }
-  console.log('✓ تم تحميل البيانات بنجاح');
+  
+  // التحقق من وجود جميع الحقول الإجبارية
+  const requiredArrays = [
+    'educationObjectives',
+    'ethicsCharter',
+    'courses',
+    'worksheets',
+    'therapeuticPlans',
+    'evidences',
+    'familyParticipation',
+    'activities',
+    'professionalDevelopment',
+    'achievements'
+  ];
+  
+  requiredArrays.forEach(field => {
+    if (!CONFIG[field]) {
+      console.warn(`⚠️ تحذير: ${field} غير محدد في CONFIG`);
+      CONFIG[field] = [];
+    }
+  });
+  
+  // التحقق من ethicsCharter.items
+  if (CONFIG.ethicsCharter && !CONFIG.ethicsCharter.items) {
+    CONFIG.ethicsCharter.items = [];
+  }
+  
+  console.log('✓ تم التحقق من البيانات بنجاح');
   return true;
 }
 
@@ -33,6 +64,7 @@ function validateConfig() {
 function updateTeacherData() {
   try {
     const teacher = CONFIG.teacher;
+    if (!teacher) return;
     
     // غلاف الصفحة
     const nameEl = document.getElementById('teacherName');
@@ -41,10 +73,10 @@ function updateTeacherData() {
     const yearEl = document.getElementById('teacherYear');
     const coverImg = document.getElementById('coverImg');
     
-    if (nameEl) nameEl.textContent = sanitizeText(teacher.name);
-    if (specialtyEl) specialtyEl.textContent = sanitizeText(teacher.specialty);
-    if (schoolEl) schoolEl.textContent = sanitizeText(teacher.school);
-    if (yearEl) yearEl.textContent = sanitizeText(teacher.year);
+    if (nameEl) nameEl.textContent = teacher.name || '';
+    if (specialtyEl) specialtyEl.textContent = teacher.specialty || '';
+    if (schoolEl) schoolEl.textContent = teacher.school || '';
+    if (yearEl) yearEl.textContent = teacher.year || '';
     if (coverImg && teacher.coverImage) {
       coverImg.src = teacher.coverImage;
       coverImg.onerror = function() {
@@ -62,9 +94,9 @@ function updateTeacherData() {
     const emailItem = document.getElementById('emailItem');
     const phoneItem = document.getElementById('phoneItem');
 
-    if (bioName) bioName.textContent = sanitizeText(teacher.name);
-    if (bioSpecialty) bioSpecialty.textContent = sanitizeText(teacher.specialty);
-    if (bioSchool) bioSchool.textContent = sanitizeText(teacher.school);
+    if (bioName) bioName.textContent = teacher.name || '';
+    if (bioSpecialty) bioSpecialty.textContent = teacher.specialty || '';
+    if (bioSchool) bioSchool.textContent = teacher.school || '';
     if (bioProfileImg && teacher.profileImage) {
       bioProfileImg.src = teacher.profileImage;
       bioProfileImg.onerror = function() {
@@ -79,14 +111,14 @@ function updateTeacherData() {
     if (emailItem) {
       emailItem.style.display = shouldShowEmail ? 'block' : 'none';
       if (shouldShowEmail && bioEmail) {
-        bioEmail.textContent = sanitizeText(teacher.email);
+        bioEmail.textContent = teacher.email || '';
       }
     }
 
     if (phoneItem) {
       phoneItem.style.display = shouldShowPhone ? 'block' : 'none';
       if (shouldShowPhone && bioPhone) {
-        bioPhone.textContent = sanitizeText(teacher.phone);
+        bioPhone.textContent = teacher.phone || '';
       }
     }
 
@@ -99,14 +131,6 @@ function updateTeacherData() {
 // وظائف مساعدة للأمان - Security Helper Functions
 // ================================================================
 
-function sanitizeText(text) {
-  if (!text) return '';
-  // منع XSS attacks
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
 function getPlaceholderImage(type, width, height) {
   const colors = {
     'cover': '%234a90e2',
@@ -115,10 +139,15 @@ function getPlaceholderImage(type, width, height) {
     'activity': '%23ecf0f1'
   };
   const color = colors[type] || '%23ecf0f1';
-  const label = type === 'cover' ? 'صورة الغلاف' : 
-                type === 'profile' ? 'الصورة الشخصية' : 'صورة';
+  const labels = {
+    'cover': 'صورة%20��لغلاف',
+    'profile': 'الصورة%20الشخصية',
+    'evidence': 'صورة',
+    'activity': 'صورة'
+  };
+  const label = labels[type] || 'صورة';
   
-  return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect fill="${color}" width="${width}" height="${height}"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="16" fill="%23999" font-family="Arial">${encodeURIComponent(label)}</text></svg>`;
+  return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect fill="${color}" width="${width}" height="${height}"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="16" fill="%23999" font-family="Arial">${label}</text></svg>`;
 }
 
 // ================================================================
@@ -126,16 +155,20 @@ function getPlaceholderImage(type, width, height) {
 // ================================================================
 
 function populateAllSections() {
-  populateObjectives();
-  populateEthics();
-  populateCourses();
-  populateWorksheets();
-  populatePlans();
-  populateEvidences();
-  populateFamily();
-  populateActivities();
-  populateProfessionalDev();
-  populateAchievements();
+  try {
+    populateObjectives();
+    populateEthics();
+    populateCourses();
+    populateWorksheets();
+    populatePlans();
+    populateEvidences();
+    populateFamily();
+    populateActivities();
+    populateProfessionalDev();
+    populateAchievements();
+  } catch (error) {
+    console.error('خطأ في ملء الأقسام:', error);
+  }
 }
 
 // الأهداف التعليمية
@@ -154,10 +187,15 @@ function populateObjectives() {
     try {
       const card = document.createElement('div');
       card.className = 'objective-card';
-      card.innerHTML = `
-        <h4>${sanitizeText(obj.title)}</h4>
-        <p>${sanitizeText(obj.description)}</p>
-      `;
+      
+      const h4 = document.createElement('h4');
+      h4.textContent = obj.title || '';
+      
+      const p = document.createElement('p');
+      p.textContent = obj.description || '';
+      
+      card.appendChild(h4);
+      card.appendChild(p);
       container.appendChild(card);
     } catch (error) {
       console.error('خطأ في إضافة هدف:', error);
@@ -181,7 +219,11 @@ function populateEthics() {
     try {
       const ethicsItem = document.createElement('div');
       ethicsItem.className = 'ethics-item';
-      ethicsItem.innerHTML = `<p>${sanitizeText(item)}</p>`;
+      
+      const p = document.createElement('p');
+      p.textContent = item || '';
+      
+      ethicsItem.appendChild(p);
       container.appendChild(ethicsItem);
     } catch (error) {
       console.error('خطأ في إضافة بند أخلاقي:', error);
@@ -210,16 +252,33 @@ function populateCourses() {
       const certificatePath = course.certificate || '';
       const hasCertificate = certificatePath && !certificatePath.includes('[');
 
-      card.innerHTML = `
-        <h4>${sanitizeText(course.name)}</h4>
-        <div class="course-meta">
-          <span><strong>الجهة:</strong> ${sanitizeText(course.provider)}</span>
-          <span><strong>التاريخ:</strong> ${formattedDate}</span>
-          <span><strong>عدد الساعات:</strong> ${course.hours || 0} ساعة</span>
-        </div>
-        <div class="course-description">${sanitizeText(course.description)}</div>
-        ${hasCertificate ? `<button class="course-button" onclick="openDocument('${certificatePath}', 'certificate')">عرض الشهادة</button>` : ''}
+      const h4 = document.createElement('h4');
+      h4.textContent = course.name || '';
+      
+      const meta = document.createElement('div');
+      meta.className = 'course-meta';
+      meta.innerHTML = `
+        <span><strong>الجهة:</strong> <span class="meta-value">${course.provider || ''}</span></span>
+        <span><strong>التاريخ:</strong> <span class="meta-value">${formattedDate}</span></span>
+        <span><strong>عدد الساعات:</strong> <span class="meta-value">${course.hours || 0} ساعة</span></span>
       `;
+      
+      const desc = document.createElement('div');
+      desc.className = 'course-description';
+      desc.textContent = course.description || '';
+      
+      card.appendChild(h4);
+      card.appendChild(meta);
+      card.appendChild(desc);
+      
+      if (hasCertificate) {
+        const btn = document.createElement('button');
+        btn.className = 'course-button';
+        btn.textContent = 'عرض الشهادة';
+        btn.onclick = function() { openDocument(certificatePath, 'certificate'); };
+        card.appendChild(btn);
+      }
+      
       container.appendChild(card);
     } catch (error) {
       console.error('خطأ في إضافة دورة:', error);
@@ -247,17 +306,35 @@ function populateWorksheets() {
       const filePath = worksheet.file || '';
       const hasFile = filePath && !filePath.includes('[');
 
-      item.innerHTML = `
-        <div class="worksheet-header">
-          <h4>${sanitizeText(worksheet.name)}</h4>
-        </div>
-        <div class="worksheet-tags">
-          <span class="tag">${sanitizeText(worksheet.subject)}</span>
-          <span class="tag">${sanitizeText(worksheet.grade)}</span>
-        </div>
-        <div class="worksheet-description">${sanitizeText(worksheet.description)}</div>
-        ${hasFile ? `<button class="course-button" onclick="openDocument('${filePath}', 'worksheet')">فتح الملف</button>` : ''}
+      const header = document.createElement('div');
+      header.className = 'worksheet-header';
+      const h4 = document.createElement('h4');
+      h4.textContent = worksheet.name || '';
+      header.appendChild(h4);
+      
+      const tags = document.createElement('div');
+      tags.className = 'worksheet-tags';
+      tags.innerHTML = `
+        <span class="tag">${worksheet.subject || ''}</span>
+        <span class="tag">${worksheet.grade || ''}</span>
       `;
+      
+      const desc = document.createElement('div');
+      desc.className = 'worksheet-description';
+      desc.textContent = worksheet.description || '';
+      
+      item.appendChild(header);
+      item.appendChild(tags);
+      item.appendChild(desc);
+      
+      if (hasFile) {
+        const btn = document.createElement('button');
+        btn.className = 'course-button';
+        btn.textContent = 'فتح الملف';
+        btn.onclick = function() { openDocument(filePath, 'worksheet'); };
+        item.appendChild(btn);
+      }
+      
       container.appendChild(item);
     } catch (error) {
       console.error('خطأ في إضافة ورقة عمل:', error);
@@ -285,38 +362,59 @@ function populatePlans() {
       const evidencePath = plan.evidence || '';
       const hasEvidence = evidencePath && !evidencePath.includes('[');
 
-      card.innerHTML = `
-        <div class="plan-header">
-          <h4>الطالب: ${sanitizeText(plan.studentCode)}</h4>
+      const header = document.createElement('div');
+      header.className = 'plan-header';
+      const h4 = document.createElement('h4');
+      h4.textContent = 'الطالب: ' + (plan.studentCode || '');
+      header.appendChild(h4);
+      
+      const details = document.createElement('div');
+      details.className = 'plan-details';
+      details.innerHTML = `
+        <div class="plan-detail">
+          <strong>الهدف:</strong>
+          <span>${plan.goal || ''}</span>
         </div>
-        
-        <div class="plan-details">
-          <div class="plan-detail">
-            <strong>الهدف:</strong>
-            <span>${sanitizeText(plan.goal)}</span>
-          </div>
-          <div class="plan-detail">
-            <strong>المهارات:</strong>
-            <span>${sanitizeText(plan.skills)}</span>
-          </div>
-          <div class="plan-detail">
-            <strong>المدة:</strong>
-            <span>${sanitizeText(plan.duration)}</span>
-          </div>
+        <div class="plan-detail">
+          <strong>المهارات:</strong>
+          <span>${plan.skills || ''}</span>
         </div>
-
-        <div class="plan-detail" style="margin-top: 1rem;">
-          <strong>الإجراءات:</strong>
-          <span>${sanitizeText(plan.actions)}</span>
+        <div class="plan-detail">
+          <strong>المدة:</strong>
+          <span>${plan.duration || ''}</span>
         </div>
-
-        <div class="plan-detail" style="margin-top: 1rem;">
-          <strong>النتائج:</strong>
-          <span>${sanitizeText(plan.results)}</span>
-        </div>
-
-        ${hasEvidence ? `<button class="course-button" onclick="openDocument('${evidencePath}', 'plan')" style="margin-top: 1rem;">عرض الشواهد</button>` : ''}
       `;
+      
+      const actions = document.createElement('div');
+      actions.className = 'plan-detail';
+      actions.style.marginTop = '1rem';
+      actions.innerHTML = `
+        <strong>الإجراءات:</strong>
+        <span>${plan.actions || ''}</span>
+      `;
+      
+      const results = document.createElement('div');
+      results.className = 'plan-detail';
+      results.style.marginTop = '1rem';
+      results.innerHTML = `
+        <strong>النتائج:</strong>
+        <span>${plan.results || ''}</span>
+      `;
+
+      card.appendChild(header);
+      card.appendChild(details);
+      card.appendChild(actions);
+      card.appendChild(results);
+
+      if (hasEvidence) {
+        const btn = document.createElement('button');
+        btn.className = 'course-button';
+        btn.textContent = 'عرض الشواهد';
+        btn.style.marginTop = '1rem';
+        btn.onclick = function() { openDocument(evidencePath, 'plan'); };
+        card.appendChild(btn);
+      }
+      
       container.appendChild(card);
     } catch (error) {
       console.error('خطأ في إضافة خطة علاجية:', error);
@@ -351,24 +449,44 @@ function populateEvidences() {
         imgSrc = getPlaceholderImage('evidence', 250, 200);
       }
 
-      let clickHandler = '';
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.alt = evidence.title || '';
+      img.className = 'evidence-image';
+      
       if (hasFile) {
         if (isImage) {
-          clickHandler = `onclick="openLightbox('${filePath}')"`;
+          img.style.cursor = 'pointer';
+          img.onclick = function() { openLightbox(filePath); };
         } else {
-          clickHandler = `onclick="openDocument('${filePath}', 'evidence')"`;
+          img.style.cursor = 'pointer';
+          img.onclick = function() { openDocument(filePath, 'evidence'); };
         }
       }
+      
+      img.onerror = function() {
+        this.src = getPlaceholderImage('evidence', 250, 200);
+      };
 
-      item.innerHTML = `
-        <img src="${imgSrc}" alt="${sanitizeText(evidence.title)}" class="evidence-image" ${clickHandler}
-             onerror="this.src='${getPlaceholderImage('evidence', 250, 200)}'">
-        <div class="evidence-content">
-          <h4>${sanitizeText(evidence.title)}</h4>
-          <div class="date">${formattedDate}</div>
-          <p>${sanitizeText(evidence.description)}</p>
-        </div>
-      `;
+      const content = document.createElement('div');
+      content.className = 'evidence-content';
+      
+      const h4 = document.createElement('h4');
+      h4.textContent = evidence.title || '';
+      
+      const date = document.createElement('div');
+      date.className = 'date';
+      date.textContent = formattedDate;
+      
+      const desc = document.createElement('p');
+      desc.textContent = evidence.description || '';
+      
+      content.appendChild(h4);
+      content.appendChild(date);
+      content.appendChild(desc);
+      
+      item.appendChild(img);
+      item.appendChild(content);
       container.appendChild(item);
     } catch (error) {
       console.error('خطأ في إضافة شاهد:', error);
@@ -404,19 +522,52 @@ function populateFamily() {
         imgSrc = getPlaceholderImage('activity', 800, 250);
       }
 
-      card.innerHTML = `
-        <img src="${imgSrc}" alt="${sanitizeText(item.title)}" class="family-image"
-             onerror="this.src='${getPlaceholderImage('activity', 800, 250)}'">
-        <div class="family-content">
-          <div class="family-header">
-            <h4>${sanitizeText(item.title)}</h4>
-            <span class="family-type">${sanitizeText(item.type)}</span>
-          </div>
-          <div class="family-date">${formattedDate}</div>
-          <div class="family-description">${sanitizeText(item.description)}</div>
-          ${hasReport ? `<button class="course-button" onclick="openDocument('${reportPath}', 'family')">عرض التقرير</button>` : ''}
-        </div>
-      `;
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.alt = item.title || '';
+      img.className = 'family-image';
+      img.onerror = function() {
+        this.src = getPlaceholderImage('activity', 800, 250);
+      };
+
+      const content = document.createElement('div');
+      content.className = 'family-content';
+      
+      const header = document.createElement('div');
+      header.className = 'family-header';
+      
+      const h4 = document.createElement('h4');
+      h4.textContent = item.title || '';
+      
+      const type = document.createElement('span');
+      type.className = 'family-type';
+      type.textContent = item.type || '';
+      
+      header.appendChild(h4);
+      header.appendChild(type);
+      
+      const date = document.createElement('div');
+      date.className = 'family-date';
+      date.textContent = formattedDate;
+      
+      const desc = document.createElement('div');
+      desc.className = 'family-description';
+      desc.textContent = item.description || '';
+      
+      content.appendChild(header);
+      content.appendChild(date);
+      content.appendChild(desc);
+      
+      if (hasReport) {
+        const btn = document.createElement('button');
+        btn.className = 'course-button';
+        btn.textContent = 'عرض التقرير';
+        btn.onclick = function() { openDocument(reportPath, 'family'); };
+        content.appendChild(btn);
+      }
+      
+      card.appendChild(img);
+      card.appendChild(content);
       container.appendChild(card);
     } catch (error) {
       console.error('خطأ في إضافة نشاط أسري:', error);
@@ -445,36 +596,63 @@ function populateActivities() {
       const reportPath = activity.report || '';
       const hasReport = reportPath && !reportPath.includes('[');
 
-      let imagesHtml = '';
+      const header = document.createElement('div');
+      header.className = 'activity-header';
+      
+      const h4 = document.createElement('h4');
+      h4.textContent = activity.name || '';
+      
+      const meta = document.createElement('div');
+      meta.className = 'activity-meta';
+      meta.innerHTML = `
+        <span>📅 ${formattedDate}</span>
+        <span>🎯 ${activity.goal || ''}</span>
+        <span>👤 ${activity.myRole || ''}</span>
+      `;
+      
+      header.appendChild(h4);
+      header.appendChild(meta);
+      
+      const content = document.createElement('div');
+      content.className = 'activity-content';
+      
+      const desc = document.createElement('div');
+      desc.className = 'activity-description';
+      desc.textContent = activity.description || '';
+      content.appendChild(desc);
+      
       if (activity.images && activity.images.length > 0) {
-        imagesHtml = '<div class="activity-images">';
+        const imagesDiv = document.createElement('div');
+        imagesDiv.className = 'activity-images';
+        
         activity.images.forEach(img => {
           if (img && !img.includes('[')) {
-            imagesHtml += `
-              <img src="${img}" alt="نشاط" class="activity-image"
-                   onerror="this.src='${getPlaceholderImage('activity', 150, 150)}'"
-                   onclick="openLightbox('${img}')">
-            `;
+            const imgEl = document.createElement('img');
+            imgEl.src = img;
+            imgEl.alt = 'نشاط';
+            imgEl.className = 'activity-image';
+            imgEl.onclick = function() { openLightbox(img); };
+            imgEl.onerror = function() {
+              this.src = getPlaceholderImage('activity', 150, 150);
+            };
+            imagesDiv.appendChild(imgEl);
           }
         });
-        imagesHtml += '</div>';
+        
+        content.appendChild(imagesDiv);
       }
-
-      item.innerHTML = `
-        <div class="activity-header">
-          <h4>${sanitizeText(activity.name)}</h4>
-          <div class="activity-meta">
-            <span>📅 ${formattedDate}</span>
-            <span>🎯 ${sanitizeText(activity.goal)}</span>
-            <span>👤 ${sanitizeText(activity.myRole)}</span>
-          </div>
-        </div>
-        <div class="activity-content">
-          <div class="activity-description">${sanitizeText(activity.description)}</div>
-          ${imagesHtml}
-          ${hasReport ? `<button class="course-button" onclick="openDocument('${reportPath}', 'activity')" style="margin-top: 1rem;">عرض التقرير</button>` : ''}
-        </div>
-      `;
+      
+      if (hasReport) {
+        const btn = document.createElement('button');
+        btn.className = 'course-button';
+        btn.textContent = 'عرض التقرير';
+        btn.style.marginTop = '1rem';
+        btn.onclick = function() { openDocument(reportPath, 'activity'); };
+        content.appendChild(btn);
+      }
+      
+      item.appendChild(header);
+      item.appendChild(content);
       container.appendChild(item);
     } catch (error) {
       console.error('خطأ في إضافة نشاط:', error);
@@ -501,16 +679,27 @@ function populateProfessionalDev() {
       
       const formattedDate = formatDate(dev.date);
 
-      card.innerHTML = `
-        <div class="plan-header">
-          <h4>${sanitizeText(dev.title)}</h4>
-          <p>${formattedDate}</p>
-        </div>
-        <div class="plan-detail">
-          <strong>الأنشطة والبرامج:</strong>
-          <span>${sanitizeText(dev.activities)}</span>
-        </div>
+      const header = document.createElement('div');
+      header.className = 'plan-header';
+      
+      const h4 = document.createElement('h4');
+      h4.textContent = dev.title || '';
+      
+      const date = document.createElement('p');
+      date.textContent = formattedDate;
+      
+      header.appendChild(h4);
+      header.appendChild(date);
+      
+      const detail = document.createElement('div');
+      detail.className = 'plan-detail';
+      detail.innerHTML = `
+        <strong>الأنشطة والبرامج:</strong>
+        <span>${dev.activities || ''}</span>
       `;
+      
+      card.appendChild(header);
+      card.appendChild(detail);
       container.appendChild(card);
     } catch (error) {
       console.error('خطأ في إضافة برنامج تطويري:', error);
@@ -544,16 +733,40 @@ function populateAchievements() {
         imgSrc = getPlaceholderImage('activity', 800, 200);
       }
 
-      card.innerHTML = `
-        <img src="${imgSrc}" alt="${sanitizeText(achievement.title)}" class="achievement-image"
-             onerror="this.src='${getPlaceholderImage('activity', 800, 200)}'"
-             ${hasImage ? `onclick="openLightbox('${imagePath}')"` : ''}>
-        <div class="achievement-content">
-          <h4>${sanitizeText(achievement.title)}</h4>
-          <div class="achievement-date">${formattedDate}</div>
-          <div class="achievement-description">${sanitizeText(achievement.description)}</div>
-        </div>
-      `;
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.alt = achievement.title || '';
+      img.className = 'achievement-image';
+      
+      if (hasImage) {
+        img.style.cursor = 'pointer';
+        img.onclick = function() { openLightbox(imagePath); };
+      }
+      
+      img.onerror = function() {
+        this.src = getPlaceholderImage('activity', 800, 200);
+      };
+
+      const content = document.createElement('div');
+      content.className = 'achievement-content';
+      
+      const h4 = document.createElement('h4');
+      h4.textContent = achievement.title || '';
+      
+      const date = document.createElement('div');
+      date.className = 'achievement-date';
+      date.textContent = formattedDate;
+      
+      const desc = document.createElement('div');
+      desc.className = 'achievement-description';
+      desc.textContent = achievement.description || '';
+      
+      content.appendChild(h4);
+      content.appendChild(date);
+      content.appendChild(desc);
+      
+      card.appendChild(img);
+      card.appendChild(content);
       container.appendChild(card);
     } catch (error) {
       console.error('خطأ في إضافة إنجاز:', error);
@@ -578,6 +791,8 @@ function showSection(sectionId) {
     if (activeSection) {
       activeSection.classList.add('active');
       window.scrollTo(0, 0);
+    } else {
+      console.warn(`قسم غير موجود: ${sectionId}`);
     }
 
     // إغلاق قائمة الهاتف
@@ -601,7 +816,8 @@ function setupEventListeners() {
     const navMenu = document.getElementById('navMenu');
     
     if (navToggle && navMenu) {
-      navToggle.addEventListener('click', function() {
+      navToggle.addEventListener('click', function(e) {
+        e.preventDefault();
         navMenu.classList.toggle('active');
       });
 
@@ -611,16 +827,6 @@ function setupEventListeners() {
         link.addEventListener('click', function() {
           navMenu.classList.remove('active');
         });
-      });
-    }
-
-    // إغلاق Lightbox عند الضغط خارجه أو على X
-    const lightbox = document.getElementById('lightbox');
-    if (lightbox) {
-      lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-          closeLightbox();
-        }
       });
     }
 
@@ -636,7 +842,7 @@ function setupEventListeners() {
 }
 
 // ================================================================
-// معاينة الملفات - Document Viewing (Improved PDF Handling)
+// معاينة الملفات - Document Viewing
 // ================================================================
 
 function openDocument(filePath, type) {
@@ -650,10 +856,8 @@ function openDocument(filePath, type) {
     const isPdf = filePath.toLowerCase().endsWith('.pdf');
     
     if (isPdf) {
-      // فتح PDF باستخدام طريقة موثوقة
       showPdfViewer(filePath);
     } else {
-      // فتح الملف في نافذة جديدة
       window.open(filePath, '_blank');
     }
   } catch (error) {
@@ -669,13 +873,11 @@ function showPdfViewer(pdfPath) {
     
     if (!pdfViewer || !pdfFrame) {
       console.error('عنصر عرض PDF غير موجود');
+      alert('لم يتمكن من فتح عارض PDF');
       return;
     }
 
-    // استخدام embed مباشر (يعمل بشكل أفضل على الجوال والكمبيوتر)
-    // هذه الطريقة تستخدم قارئ PDF الأصلي للمتصفح
     pdfFrame.src = pdfPath;
-    
     showSection('pdf-viewer');
   } catch (error) {
     console.error('خطأ في عرض PDF:', error);
@@ -702,7 +904,7 @@ function closePdfViewer() {
 function openLightbox(imagePath) {
   try {
     if (!imagePath || imagePath.includes('[')) {
-      alert('⚠️ الصورة لم تكن متوفرة');
+      console.warn('الصورة غير متوفرة:', imagePath);
       return;
     }
 
@@ -735,6 +937,14 @@ function closeLightbox() {
   }
 }
 
+// إغلاق Lightbox عند الضغط خارجه
+document.addEventListener('click', function(event) {
+  const lightbox = document.getElementById('lightbox');
+  if (lightbox && event.target === lightbox) {
+    closeLightbox();
+  }
+});
+
 // ================================================================
 // الطباعة وحفظ PDF - Print/PDF Export
 // ================================================================
@@ -742,7 +952,7 @@ function closeLightbox() {
 function printPortfolio() {
   try {
     // التحقق من أن لدينا بيانات كافية
-    if (CONFIG.teacher.name === '[اسم المعلم]') {
+    if (CONFIG.teacher && CONFIG.teacher.name === '[اسم المعلم]') {
       alert('⚠️ يرجى تحديث بيانات المعلم في ملف config.js أولاً');
       return;
     }
@@ -752,12 +962,13 @@ function printPortfolio() {
     if (lightbox) {
       lightbox.classList.remove('active');
     }
+    
     const pdfFrame = document.getElementById('pdfFrame');
     if (pdfFrame) {
       pdfFrame.src = '';
     }
 
-    // عرض الصفحة الرئيسية فقط (CSS للطباعة سيتولى الباقي)
+    // عرض الصفحة الرئيسية
     showSection('home');
     
     // انتظر قليلاً للتأكد من تحديث الـ DOM
@@ -782,10 +993,15 @@ function formatDate(dateString) {
     }
     
     // استخدام UTC لتجنب مشاكل timezone
-    const date = new Date(dateString + 'T00:00:00Z');
+    const [year, month, day] = dateString.split('-');
+    if (!year || !month || !day) {
+      return dateString;
+    }
+    
+    const date = new Date(year, parseInt(month) - 1, day);
     
     if (isNaN(date.getTime())) {
-      return dateString; // إرجاع التاريخ الأصلي إذا كان غير صحيح
+      return dateString;
     }
     
     return date.toLocaleDateString('ar-SA', {
@@ -795,13 +1011,8 @@ function formatDate(dateString) {
     });
   } catch (error) {
     console.error('خطأ في تنسيق التاريخ:', error);
-    return dateString;
+    return dateString || '';
   }
-}
-
-// التحقق من وجود الملف
-function fileExists(filePath) {
-  return filePath && !filePath.includes('[');
 }
 
 // ================================================================
@@ -809,7 +1020,7 @@ function fileExists(filePath) {
 // ================================================================
 
 window.addEventListener('error', function(event) {
-  console.error('خطأ عام:', event.error);
+  console.error('خطأ في الصفحة:', event.error);
 });
 
 // ================================================================
