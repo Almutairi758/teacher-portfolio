@@ -4,10 +4,10 @@
 const CONFIG = {
   // المعلومات الأساسية - Basic Information
   teacher: {
-    name: "[اسم المعلم]", // Teacher's name
-    specialty: "[التخصص]", // Subject specialty
-    school: "[اسم المدرسة]", // School name
-    year: "[العام الدراسي]", // Academic year
+    name: "عبدالله عبدالرحمن المطيري", // Teacher's name
+    specialty: "أخصائي نطق", // Subject specialty
+    school: "عامر بن عوف", // School name
+    year: "1448-1449", // Academic year
     email: "[البريد الإلكتروني]", // Email (optional)
     phone: "[رقم التواصل]", // Phone number (optional)
     profileImage: "images/profile.jpg", // Profile picture
