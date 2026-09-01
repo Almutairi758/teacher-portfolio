@@ -1,5 +1,6 @@
 /* ================================================================
    ملف التصميم الرئيسي - Main Stylesheet
+   تم تحسينه للتوافقية الكاملة والطباعة الاحترافية
    ================================================================ */
 
 * {
@@ -102,6 +103,7 @@ body {
   font-size: 1.5rem;
   color: var(--white);
   cursor: pointer;
+  padding: 0;
 }
 
 /* ================================================================
@@ -178,6 +180,7 @@ body {
   text-align: center;
   color: var(--white);
   padding: 2rem;
+  z-index: 10;
 }
 
 .cover-content h1 {
@@ -303,6 +306,7 @@ body {
   margin-bottom: 2rem;
   transition: var(--transition);
   border: none;
+  font-size: 1rem;
 }
 
 .back-button:hover {
@@ -370,6 +374,7 @@ body {
 
 .bio-item span {
   color: var(--light-text);
+  word-break: break-word;
 }
 
 /* ================================================================
@@ -434,6 +439,7 @@ body {
   background: var(--light-bg);
   border-radius: 8px;
   transition: var(--transition);
+  page-break-inside: avoid;
 }
 
 .ethics-item:hover {
@@ -452,6 +458,7 @@ body {
 .ethics-item p {
   color: var(--dark-text);
   line-height: 1.6;
+  margin: 0;
 }
 
 /* ================================================================
@@ -483,6 +490,7 @@ body {
   color: var(--primary-color);
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
+  word-break: break-word;
 }
 
 .course-meta {
@@ -520,10 +528,15 @@ body {
   border: none;
   font-weight: 600;
   margin-top: 1rem;
+  font-size: 0.95rem;
 }
 
 .course-button:hover {
   background: var(--accent-color);
+}
+
+.course-button:active {
+  transform: scale(0.98);
 }
 
 /* ================================================================
@@ -565,6 +578,7 @@ body {
   font-size: 1.2rem;
   flex: 1;
   min-width: 200px;
+  word-break: break-word;
 }
 
 .worksheet-tags {
@@ -624,11 +638,13 @@ body {
   color: var(--primary-color);
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
+  word-break: break-word;
 }
 
 .plan-header p {
   color: var(--light-text);
   font-size: 0.9rem;
+  margin: 0;
 }
 
 .plan-details {
@@ -642,6 +658,7 @@ body {
   padding: 1rem;
   background: var(--light-bg);
   border-radius: 8px;
+  page-break-inside: avoid;
 }
 
 .plan-detail strong {
@@ -653,6 +670,7 @@ body {
 .plan-detail span {
   color: var(--dark-text);
   font-size: 0.95rem;
+  word-break: break-word;
 }
 
 /* ================================================================
@@ -685,6 +703,7 @@ body {
   height: 200px;
   object-fit: cover;
   background: var(--light-bg);
+  display: block;
 }
 
 .evidence-content {
@@ -695,6 +714,7 @@ body {
   color: var(--primary-color);
   margin-bottom: 0.3rem;
   font-size: 1.1rem;
+  word-break: break-word;
 }
 
 .evidence-content .date {
@@ -707,6 +727,7 @@ body {
   color: var(--dark-text);
   font-size: 0.9rem;
   line-height: 1.5;
+  margin: 0;
 }
 
 /* ================================================================
@@ -736,6 +757,7 @@ body {
   height: 250px;
   object-fit: cover;
   background: var(--light-bg);
+  display: block;
 }
 
 .family-content {
@@ -756,6 +778,7 @@ body {
   font-size: 1.2rem;
   flex: 1;
   min-width: 200px;
+  word-break: break-word;
 }
 
 .family-type {
@@ -765,6 +788,7 @@ body {
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .family-date {
@@ -810,6 +834,7 @@ body {
 .activity-header h4 {
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
+  word-break: break-word;
 }
 
 .activity-meta {
@@ -849,6 +874,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: var(--transition);
+  display: block;
 }
 
 .activity-image:hover {
@@ -884,6 +910,8 @@ body {
   height: 200px;
   object-fit: cover;
   background: var(--light-bg);
+  display: block;
+  cursor: pointer;
 }
 
 .achievement-content {
@@ -894,6 +922,7 @@ body {
   color: var(--primary-color);
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
+  word-break: break-word;
 }
 
 .achievement-date {
@@ -914,6 +943,7 @@ body {
 
 #pdf-viewer {
   padding: 1rem;
+  page-break-inside: avoid;
 }
 
 .pdf-container {
@@ -929,6 +959,7 @@ body {
   height: 700px;
   border: none;
   border-radius: 8px;
+  background: var(--white);
 }
 
 /* ================================================================
@@ -943,8 +974,9 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   animation: fadeIn 0.3s ease;
+  touch-action: none;
 }
 
 .lightbox.active {
@@ -955,13 +987,18 @@ body {
 
 .lightbox-content {
   position: relative;
-  max-width: 90%;
+  max-width: 90vw;
   max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lightbox-content img {
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 90vw;
+  max-height: 85vh;
   border-radius: var(--border-radius);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
@@ -974,6 +1011,10 @@ body {
   color: var(--white);
   cursor: pointer;
   transition: var(--transition);
+  border: none;
+  background: none;
+  padding: 0;
+  line-height: 1;
 }
 
 .lightbox-close:hover {
@@ -1001,6 +1042,7 @@ body {
     text-align: right;
     padding: 2rem;
     gap: 1rem;
+    list-style: none;
   }
 
   .nav-menu.active {
@@ -1033,6 +1075,10 @@ body {
     font-size: 1.8rem;
   }
 
+  .section-title {
+    font-size: 1.5rem;
+  }
+
   .cards-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -1047,6 +1093,7 @@ body {
     width: 100%;
     max-width: 250px;
     height: auto;
+    margin: 0 auto;
   }
 
   .objectives-list {
@@ -1070,19 +1117,39 @@ body {
   }
 
   .family-image,
-  .activity-image,
   .achievement-image {
     height: 150px;
+  }
+
+  .activity-images {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .activity-image {
+    height: 120px;
   }
 
   .back-button {
     display: block;
     text-align: center;
+    width: 100%;
   }
 
   .lightbox-close {
     top: 10px;
     right: 10px;
+  }
+
+  .pdf-frame {
+    height: 500px;
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
   }
 }
 
@@ -1111,6 +1178,12 @@ body {
     font-size: 1.5rem;
   }
 
+  .cover-content .specialty,
+  .cover-content .school,
+  .cover-content .year {
+    font-size: 0.9rem;
+  }
+
   .section h2 {
     font-size: 1.5rem;
   }
@@ -1124,11 +1197,15 @@ body {
   }
 
   .card-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   .card h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
+  }
+
+  .card p {
+    font-size: 0.85rem;
   }
 
   .bio-section {
@@ -1146,50 +1223,93 @@ body {
   }
 
   .activity-images {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .activity-image {
+    height: 100px;
   }
 
   .pdf-frame {
     height: 400px;
   }
+
+  .course-button {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .back-button {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .family-type {
+    font-size: 0.8rem;
+  }
+
+  .activity-meta {
+    gap: 1rem;
+    font-size: 0.85rem;
+  }
 }
 
 /* ================================================================
-   Print Styles - نمط الطباعة
+   Print Styles - نمط الطباعة (A4 Format)
    ================================================================ */
 
 @media print {
   * {
     background: transparent !important;
-    color: #000 !important;
     box-shadow: none !important;
     text-shadow: none !important;
+  }
+
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   body {
     font-size: 11pt;
     line-height: 1.5;
     background: white;
+    color: black;
   }
 
+  /* Hide interactive elements */
   .navbar,
+  .nav-menu,
   .nav-toggle,
   .back-button,
   .course-button,
-  #navMenu {
+  .lightbox,
+  #pdf-viewer {
     display: none !important;
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    display: none;
   }
 
   .container {
     max-width: 100%;
     margin: 0;
     padding: 0;
+    width: 100%;
   }
 
+  /* Section styles */
   .section {
     display: block !important;
     page-break-after: always;
-    margin-bottom: 0;
+    margin: 0;
+    padding: 1cm;
+    width: 100%;
   }
 
   .section:last-child {
@@ -1199,12 +1319,26 @@ body {
   .section h2 {
     page-break-after: avoid;
     page-break-before: avoid;
+    margin-top: 0;
+    color: black;
   }
 
+  .section-title {
+    page-break-after: avoid;
+    color: black;
+  }
+
+  .section-title::after {
+    background: black;
+  }
+
+  /* Cover page */
   .cover-page {
     page-break-after: always;
     height: auto;
-    margin-bottom: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
   }
 
   .cover-background {
@@ -1214,24 +1348,33 @@ body {
   .cover-image {
     filter: brightness(1);
     max-height: 300px;
+    margin-bottom: 1cm;
   }
 
   .cover-content {
     position: static;
-    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-    color: white;
-    padding: 3cm;
+    background: none;
+    color: black;
+    padding: 1cm;
+    text-shadow: none;
+    page-break-after: always;
   }
 
   .cover-content h1 {
-    font-size: 28pt;
+    font-size: 24pt;
     page-break-after: avoid;
+    color: black;
+    text-shadow: none;
   }
 
-  .section-title {
-    page-break-after: avoid;
+  .cover-content .specialty,
+  .cover-content .school,
+  .cover-content .year {
+    text-shadow: none;
+    color: black;
   }
 
+  /* Cards and containers */
   .card,
   .course-card,
   .worksheet-item,
@@ -1244,47 +1387,87 @@ body {
   .ethics-container,
   .bio-section {
     page-break-inside: avoid;
-    border: 1px solid #ccc;
-    margin-bottom: 12pt;
+    border: 1px solid #333;
+    margin-bottom: 0.5cm;
+    box-shadow: none;
+    background: white;
   }
 
   .cards-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 12pt;
+    gap: 0.5cm;
+    page-break-inside: avoid;
   }
 
   .card {
     page-break-inside: avoid;
+    text-align: center;
+    border-top: 3px solid #333;
   }
 
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  /* Biography */
   .bio-container {
     grid-template-columns: 1fr;
+    gap: 0.5cm;
   }
 
   .profile-img {
-    max-width: 200px;
-    margin: 0 auto 1cm;
+    max-width: 4cm;
+    height: auto;
+    margin: 0 auto 0.5cm;
+    border: 1px solid #333;
   }
 
-  .lightbox,
-  #pdf-viewer {
-    display: none !important;
+  /* Objective cards */
+  .objectives-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5cm;
   }
 
+  .objective-card {
+    page-break-inside: avoid;
+    border-right: 3px solid #333;
+  }
+
+  /* Ethics */
+  .ethics-item {
+    page-break-inside: avoid;
+  }
+
+  .ethics-item::before {
+    content: '✓';
+  }
+
+  /* Courses */
+  .courses-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5cm;
+  }
+
+  /* Images */
   img {
     max-width: 100%;
     height: auto;
     page-break-inside: avoid;
   }
 
-  a {
-    text-decoration: underline;
+  .evidence-image,
+  .family-image,
+  .activity-image,
+  .achievement-image {
+    max-height: 3cm;
   }
 
-  a[href]:after {
-    content: '';
+  .activity-images {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3cm;
   }
 
+  /* Tables and lists */
   table {
     page-break-inside: avoid;
   }
@@ -1293,16 +1476,45 @@ body {
     page-break-inside: avoid;
   }
 
-  h2,
-  h3,
-  h4 {
+  h2, h3, h4 {
     page-break-after: avoid;
+    color: black;
   }
 
-  /* A4 Page Size */
+  /* Plan details */
+  .plan-details {
+    grid-template-columns: 1fr;
+    gap: 0.3cm;
+  }
+
+  .plan-detail {
+    page-break-inside: avoid;
+  }
+
+  /* Remove hover effects */
+  a:hover, button:hover {
+    text-decoration: none;
+  }
+
+  /* Activity styles */
+  .activity-header {
+    background: #f0f0f0;
+    color: black;
+  }
+
+  .family-type {
+    background: #f0f0f0;
+    color: black;
+  }
+
+  /* Page setup */
   @page {
     size: A4;
     margin: 1cm;
+  }
+
+  @page :first {
+    margin-top: 1cm;
   }
 }
 
@@ -1323,9 +1535,9 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .visible {
-  display: block;
+  display: block !important;
 }
