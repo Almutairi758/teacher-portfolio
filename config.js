@@ -8,8 +8,8 @@ const CONFIG = {
     specialty: "[التخصص]", // Subject specialty
     school: "[اسم المدرسة]", // School name
     year: "[العام الدراسي]", // Academic year
-    email: "[البريد الإلكتروني]", // Email
-    phone: "[رقم التواصل]", // Phone number
+    email: "[البريد الإلكتروني]", // Email (optional)
+    phone: "[رقم التواصل]", // Phone number (optional)
     profileImage: "images/profile.jpg", // Profile picture
     coverImage: "images/cover.jpg" // Cover image
   },
@@ -20,10 +20,10 @@ const CONFIG = {
       id: 1,
       name: "[اسم الدورة الأولى]",
       provider: "[جهة التدريب]",
-      date: "2024-01-15",
+      date: "2024-01-15", // Format: YYYY-MM-DD
       hours: 30,
       description: "[وصف الدورة التدريبية]",
-      certificate: "documents/course-1.pdf"
+      certificate: "documents/course-1.pdf" // Leave as is if no file yet
     },
     {
       id: 2,
@@ -75,7 +75,7 @@ const CONFIG = {
     {
       id: 1,
       title: "[عنوان الشاهد]",
-      date: "2024-01-10",
+      date: "2024-01-10", // Format: YYYY-MM-DD
       description: "[وصف الشاهد]",
       type: "image", // "image" or "pdf"
       file: "images/evidence-1.jpg"
@@ -95,7 +95,7 @@ const CONFIG = {
     {
       id: 1,
       title: "[عنوان اللقاء/المبادرة]",
-      date: "2024-01-20",
+      date: "2024-01-20", // Format: YYYY-MM-DD
       type: "[نوع: اجتماع/تواصل/مبادرة]",
       description: "[وصف النشاط]",
       image: "images/family-1.jpg",
@@ -108,11 +108,11 @@ const CONFIG = {
     {
       id: 1,
       name: "[اسم النشاط]",
-      date: "2024-01-25",
+      date: "2024-01-25", // Format: YYYY-MM-DD
       goal: "[الهدف من النشاط]",
       myRole: "[دوري في النشاط]",
       description: "[وصف تفصيلي للنشاط]",
-      images: ["images/activity-1.jpg"],
+      images: ["images/activity-1.jpg"], // Array of image paths
       report: "documents/activity-report-1.pdf"
     }
   ],
@@ -154,7 +154,7 @@ const CONFIG = {
       id: 1,
       title: "[مجال التطوير المهني]",
       activities: "[الأنشطة والبرامج التطويرية]",
-      date: "2024-01-30"
+      date: "2024-01-30" // Format: YYYY-MM-DD
     }
   ],
 
@@ -164,8 +164,11 @@ const CONFIG = {
       id: 1,
       title: "[عنوان الإنجاز/المبادرة]",
       description: "[وصف الإنجاز والتأثير]",
-      date: "2024-02-01",
+      date: "2024-02-01", // Format: YYYY-MM-DD
       image: "images/achievement-1.jpg"
     }
   ]
 };
+
+// التحقق من أن الإعدادات تم تحميلها بنجاح
+console.log('✓ تم تحميل ملف الإعدادات بنجاح');
