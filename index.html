@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ملف الإنجاز المهني - معلم</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">📚 ملف الإنجاز المهني</div>
+      <button class="nav-toggle" id="navToggle">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home" class="nav-link" onclick="showSection('home')">الرئيسية</a></li>
+        <li><a href="#" class="nav-link" onclick="printPortfolio()">طباعة/PDF</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div id="mainContainer" class="container">
+
+    <!-- HOME SECTION - الصفحة الرئيسية -->
+    <section id="home" class="section active">
+      <!-- Cover Page -->
+      <div class="cover-page" id="coverPage">
+        <div class="cover-background">
+          <img id="coverImg" src="images/cover.jpg" alt="غلاف" class="cover-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22600%22><rect fill=%22%234a90e2%22 width=%22800%22 height=%22600%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22 fill=%22white%22 font-family=%22Arial%22>صورة الغلاف</text></svg>'">
+        </div>
+        <div class="cover-content">
+          <h1 id="teacherName">[اسم المعلم]</h1>
+          <p id="teacherSpecialty" class="specialty">[التخصص]</p>
+          <p id="teacherSchool" class="school">[اسم المدرسة]</p>
+          <p id="teacherYear" class="year">[العام الدراسي]</p>
+        </div>
+      </div>
+
+      <!-- Dashboard Cards -->
+      <div class="dashboard">
+        <div class="section-title">أقسام الملف الإنجازي</div>
+        
+        <div class="cards-grid">
+          <div class="card" onclick="showSection('biography')">
+            <div class="card-icon">👤</div>
+            <h3>السيرة الذاتية</h3>
+            <p>معلومات شخصية وخبرات مهنية</p>
+          </div>
+
+          <div class="card" onclick="showSection('education-objectives')">
+            <div class="card-icon">🎯</div>
+            <h3>أهداف السياسة التعليمية</h3>
+            <p>أهداف التعليم في المملكة</p>
+          </div>
+
+          <div class="card" onclick="showSection('ethics')">
+            <div class="card-icon">⚖️</div>
+            <h3>ميثاق الأخلاقيات</h3>
+            <p>أخلاقيات مهنة التعليم</p>
+          </div>
+
+          <div class="card" onclick="showSection('courses')">
+            <div class="card-icon">🎓</div>
+            <h3>الدورات التدريبية</h3>
+            <p>البرامج التدريبية والشهادات</p>
+          </div>
+
+          <div class="card" onclick="showSection('worksheets')">
+            <div class="card-icon">📝</div>
+            <h3>أوراق العمل</h3>
+            <p>نماذج الأنشطة والتدريبات</p>
+          </div>
+
+          <div class="card" onclick="showSection('therapeutic-plans')">
+            <div class="card-icon">🏥</div>
+            <h3>الخطط العلاجية</h3>
+            <p>خطط دعم الطلاب</p>
+          </div>
+
+          <div class="card" onclick="showSection('evidences')">
+            <div class="card-icon">🖼️</div>
+            <h3>الشواهد</h3>
+            <p>صور وملفات تدعيمية</p>
+          </div>
+
+          <div class="card" onclick="showSection('family')">
+            <div class="card-icon">👨‍👩‍👧‍👦</div>
+            <h3>مشاركة الأسرة</h3>
+            <p>التواصل والتعاون الأسري</p>
+          </div>
+
+          <div class="card" onclick="showSection('activities')">
+            <div class="card-icon">🎉</div>
+            <h3>تقارير الأنشطة</h3>
+            <p>تقارير الفعاليات والبرامج</p>
+          </div>
+
+          <div class="card" onclick="showSection('professional-dev')">
+            <div class="card-icon">📈</div>
+            <h3>التطوير المهني</h3>
+            <p>برامج التطور الذاتي والتخصصي</p>
+          </div>
+
+          <div class="card" onclick="showSection('achievements')">
+            <div class="card-icon">🏆</div>
+            <h3>الإنجازات والمبادرات</h3>
+            <p>الإنجازات والمشاريع الناجحة</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIOGRAPHY SECTION -->
+    <section id="biography" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>السيرة الذاتية</h2>
+      
+      <div class="bio-container">
+        <div class="bio-profile">
+          <img id="bioProfileImg" src="images/profile.jpg" alt="الصورة الشخصية" class="profile-img" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23e0e0e0%22 width=%22200%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2216%22 fill=%22%23999%22 font-family=%22Arial%22>الصورة الشخصية</text></svg>'">
+        </div>
+
+        <div class="bio-info">
+          <div class="bio-section">
+            <h3>المعلومات الشخصية</h3>
+            <div class="bio-item">
+              <strong>الاسم:</strong>
+              <span id="bioName">[اسم المعلم]</span>
+            </div>
+            <div class="bio-item">
+              <strong>التخصص:</strong>
+              <span id="bioSpecialty">[التخصص]</span>
+            </div>
+            <div class="bio-item">
+              <strong>المدرسة:</strong>
+              <span id="bioSchool">[اسم المدرسة]</span>
+            </div>
+            <div class="bio-item" id="emailItem">
+              <strong>البريد الإلكتروني:</strong>
+              <span id="bioEmail">[البريد الإلكتروني]</span>
+            </div>
+            <div class="bio-item" id="phoneItem">
+              <strong>رقم التواصل:</strong>
+              <span id="bioPhone">[رقم التواصل]</span>
+            </div>
+          </div>
+
+          <div class="bio-section">
+            <h3>الخبرات المهنية</h3>
+            <p>[أضف هنا ملخص خبراتك المهنية]</p>
+          </div>
+
+          <div class="bio-section">
+            <h3>المؤهلات التعليمية</h3>
+            <p>[أضف هنا مؤهلاتك التعليمية]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION OBJECTIVES SECTION -->
+    <section id="education-objectives" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>أهداف سياسة التعليم في المملكة العربية السعودية</h2>
+      
+      <div class="objectives-list" id="objectivesList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- ETHICS SECTION -->
+    <section id="ethics" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>ميثاق أخلاقيات مهنة التعليم</h2>
+      
+      <div class="ethics-container">
+        <div class="ethics-list" id="ethicsList">
+          <!-- يتم ملؤها من config.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES SECTION -->
+    <section id="courses" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>الدورات التدريبية</h2>
+      
+      <div class="courses-grid" id="coursesList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- WORKSHEETS SECTION -->
+    <section id="worksheets" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>أوراق العمل</h2>
+      
+      <div class="worksheets-list" id="worksheetsList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- THERAPEUTIC PLANS SECTION -->
+    <section id="therapeutic-plans" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>الخطط العلاجية للطلاب</h2>
+      
+      <div class="plans-list" id="plansList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- EVIDENCES SECTION -->
+    <section id="evidences" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>الشواهد</h2>
+      
+      <div class="evidences-gallery" id="evidencesList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- FAMILY PARTICIPATION SECTION -->
+    <section id="family" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>مشاركة الأسرة</h2>
+      
+      <div class="family-list" id="familyList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- ACTIVITIES SECTION -->
+    <section id="activities" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>تقارير الأنشطة المدرسية</h2>
+      
+      <div class="activities-list" id="activitiesList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- PROFESSIONAL DEVELOPMENT SECTION -->
+    <section id="professional-dev" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>التطوير المهني</h2>
+      
+      <div class="dev-list" id="devList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS SECTION -->
+    <section id="achievements" class="section">
+      <div class="back-button" onclick="showSection('home')">← العودة للرئيسية</div>
+      <h2>الإنجازات والمبادرات</h2>
+      
+      <div class="achievements-grid" id="achievementsList">
+        <!-- يتم ملؤها من config.js -->
+      </div>
+    </section>
+
+    <!-- PDF VIEWER -->
+    <section id="pdf-viewer" class="section">
+      <div class="back-button" onclick="closePdfViewer()">← الرجوع</div>
+      <div class="pdf-container">
+        <iframe id="pdfFrame" src="" class="pdf-frame"></iframe>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Lightbox for Images -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+      <img id="lightboxImg" src="" alt="">
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
