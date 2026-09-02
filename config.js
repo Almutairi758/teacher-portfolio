@@ -173,6 +173,13 @@ const CONFIG = {
     }
   ],
 
+  // جدول الجلسات - Session Schedule
+  sessionSchedule: {
+    title: "جدول جلسات طلاب برنامج التوحد",
+    image: "[ضع صورة الجدول داخل images ثم اكتب المسار هنا]",
+    pdf: "[ضع ملف PDF داخل documents ثم اكتب المسار هنا]"
+  },
+
   // الإنجازات والمبادرات - Achievements and Initiatives
   achievements: [
     {
