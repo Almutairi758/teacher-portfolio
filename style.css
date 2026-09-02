@@ -1541,3 +1541,44 @@ body {
 .visible {
   display: block !important;
 }
+
+
+/* السيرة الذاتية - القوائم */
+.bio-list {
+  margin: 0;
+  padding-right: 1.4rem;
+  line-height: 2;
+}
+.bio-list li {
+  margin-bottom: 0.55rem;
+}
+
+/* جدول الجلسات */
+.schedule-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+.schedule-image {
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  margin: 0 auto 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.schedule-pdf-btn {
+  margin: 1rem auto;
+}
+.schedule-placeholder {
+  padding: 3rem 1.5rem;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  background: #fafafa;
+}
+.schedule-placeholder strong {
+  display: block;
+  font-size: 1.25rem;
+  margin-bottom: .75rem;
+}

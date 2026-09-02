@@ -165,6 +165,7 @@ function populateAllSections() {
     populateFamily();
     populateActivities();
     populateProfessionalDev();
+    populateSessionSchedule();
     populateAchievements();
   } catch (error) {
     console.error('خطأ في ملء الأقسام:', error);
@@ -772,6 +773,45 @@ function populateAchievements() {
       console.error('خطأ في إضافة إنجاز:', error);
     }
   });
+}
+
+
+// جدول الجلسات
+function populateSessionSchedule() {
+  const container = document.getElementById('scheduleContainer');
+  if (!container) return;
+
+  container.innerHTML = '';
+  const schedule = CONFIG.sessionSchedule || {};
+  const imagePath = schedule.image || '';
+  const pdfPath = schedule.pdf || '';
+  const hasImage = imagePath && !imagePath.includes('[');
+  const hasPdf = pdfPath && !pdfPath.includes('[');
+
+  if (hasImage) {
+    const img = document.createElement('img');
+    img.src = imagePath;
+    img.alt = schedule.title || 'جدول الجلسات';
+    img.className = 'schedule-image';
+    img.onclick = function() { openLightbox(imagePath); };
+    img.onerror = function() { this.style.display = 'none'; };
+    container.appendChild(img);
+  }
+
+  if (hasPdf) {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-primary schedule-pdf-btn';
+    btn.textContent = 'عرض جدول الجلسات PDF';
+    btn.onclick = function() { openDocument(pdfPath, 'schedule'); };
+    container.appendChild(btn);
+  }
+
+  if (!hasImage && !hasPdf) {
+    const note = document.createElement('div');
+    note.className = 'schedule-placeholder';
+    note.innerHTML = '<strong>جدول الجلسات</strong><p>أضف صورة الجدول أو ملف PDF وسيظهر هنا مباشرة.</p>';
+    container.appendChild(note);
+  }
 }
 
 // ================================================================
