@@ -53,7 +53,7 @@ const CONFIG = {
     ]
   },
   professionalDevelopment:[{id:1,title:"[مجال التطوير المهني]",activities:"[الأنشطة والبرامج التطويرية]",date:"2024-01-30"}],
-  sessionSchedule:{title:"جدول الجلسات الأسبوعي",image:"images/session-schedule.svg",pdf:"[سيتم إضافة نسخة PDF المعتمدة]"},
+  sessionSchedule:{title:"جدول الجلسات الأسبوعي",image:"images/session-schedule-v2.svg",pdf:"[سيتم إضافة نسخة PDF المعتمدة]"},
   achievements:[{id:1,title:"[عنوان الإنجاز/المبادرة]",description:"[وصف الإنجاز والتأثير]",date:"2024-02-01",image:"images/achievement-1.jpg"}]
 };
 console.log('✓ تم تحميل ملف الإعدادات بنجاح');
