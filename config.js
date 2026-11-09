@@ -12,7 +12,8 @@ const CONFIG = {
   },
   courses: [
     {id:1,name:"[اسم الدورة الأولى]",provider:"[جهة التدريب]",date:"2024-01-15",hours:30,description:"[وصف الدورة التدريبية]",certificate:"documents/course-1.pdf"},
-    {id:2,name:"[اسم الدورة الثانية]",provider:"[جهة التدريب]",date:"2024-02-20",hours:20,description:"[وصف الدورة التدريبية]",certificate:"documents/course-2.pdf"}
+    {id:2,name:"[اسم الدورة الثانية]",provider:"[جهة التدريب]",date:"2024-02-20",hours:20,description:"[وصف الدورة التدريبية]",certificate:"documents/course-2.pdf"},
+    {id:3,name:"البرنامج الإلزامي - غير المتزامن (ورشة الأمن السيبراني)",provider:"منصة أبعاد - وزارة التعليم",date:"2026-10-15",hours:2,description:"ورشة الأمن السيبراني، لمدة يوم واحد (ساعتان).",certificate:"https://moe.futurex.sa/certificates/d227057db5fc414296ca0d7500e2b8b6"}
   ],
   worksheets: [
     {id:1,name:"[اسم ورقة العمل]",subject:"[المادة/المجال]",grade:"[الصف أو الفئة]",description:"[وصف الورقة]",file:"documents/worksheet-1.pdf"},
